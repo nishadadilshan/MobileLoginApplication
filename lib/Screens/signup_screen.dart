@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:logginapplication/reusable_widgets/logo_widget.dart';
+import 'package:logginapplication/reusable_widgets/signinloginbutton_widget.dart';
+import 'package:logginapplication/reusable_widgets/textFeild_widget.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -8,8 +11,82 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  TextEditingController _userNameTextController = TextEditingController();
+  TextEditingController _emailTextController = TextEditingController();
+  TextEditingController _addressTextController = TextEditingController();
+  TextEditingController _countryTextController = TextEditingController();
+  TextEditingController _mobileTextController = TextEditingController();
+  TextEditingController _passwordTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return const Text("SignUP Screen");
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        // title: const Text(
+        //   "SIGN UP",
+        //   style: TextStyle(
+        //     fontWeight: FontWeight.bold,
+        //     fontSize: 24,
+        //   ),
+        // ),
+      ),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(colors: [
+          Colors.deepPurple,
+          Colors.teal,
+          Colors.green,
+        ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(20, 100, 20, 0),
+            child: Column(
+              children: <Widget>[
+                logoWidget("assets/images/img_1.png"),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Text("SIGN UP",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24,
+                    )),
+                const SizedBox(
+                  height: 10,
+                ),
+                reUseTextField("Enter Name", Icons.person_outline, false,
+                    _userNameTextController),
+                const SizedBox(
+                  height: 10,
+                ),reUseTextField("Enter email address", Icons.email_outlined, false,
+                    _emailTextController),
+                const SizedBox(
+                  height: 10,
+                ),
+                reUseTextField("Mobile number", Icons.phone_android_outlined, false,
+                    _mobileTextController),
+                const SizedBox(
+                  height: 10,
+                ),
+                reUseTextField("Enter password", Icons.lock_outlined, true,
+                    _passwordTextController),
+                const SizedBox(
+                  height: 10,
+                ),
+                signInSignUpButton(context, false, (){
+                  print("Sign up pressed");
+                })
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
