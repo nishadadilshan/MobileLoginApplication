@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:logginapplication/utils/color_utils.dart';
 
+import '../utils/logo_utils.dart';
+
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
 
@@ -13,12 +15,25 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
           gradient: LinearGradient(colors: [
-            Colors.pinkAccent,
+            Colors.green,
+            Colors.teal,
             Colors.deepPurple,
-            Colors.blue,
-          ], begin: Alignment.topCenter, end: Alignment.bottomCenter ),
+          ], begin: Alignment.topCenter, end: Alignment.bottomCenter )
+        ),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB((20), MediaQuery.of(context).size.height * 0.2, 20, 0
+            ),
+            child: Column(
+              children: <Widget>[
+                logoWidget("assets/images/img.png"),
+              ],
+            ),
+          ),
         ),
       ),
     );
