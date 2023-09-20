@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logginapplication/reusable_widgets/signinloginbutton_widget.dart';
 import 'package:logginapplication/reusable_widgets/textFeild_widget.dart';
 import 'package:logginapplication/utils/color_utils.dart';
 
@@ -35,14 +36,14 @@ class _SignInScreenState extends State<SignInScreen> {
             child: Column(
               children: <Widget>[
                 logoWidget("assets/images/img.png"),
-
                 const SizedBox(height: 30,),
-
                 reUseTextField("Enter the username", Icons.person_outline, false , _emailTextController ),
-
-                const SizedBox(height: 30,),
-
+                const SizedBox(height: 20,),
                 reUseTextField("Enter the password", Icons.lock_outlined, false , _passwordTextController ),
+                const SizedBox(height: 40,),
+                signInSignUpButton(context, true, (){
+                  print("Sign in pressed");
+                })
 
               ],
             ),
