@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:logginapplication/reusable_widgets/textFeild_widget.dart';
 import 'package:logginapplication/utils/color_utils.dart';
 
-import '../utils/logo_utils.dart';
+import '../reusable_widgets/logo_widget.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -11,6 +12,9 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  TextEditingController _emailTextController = TextEditingController();
+  TextEditingController _passwordTextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,6 +35,15 @@ class _SignInScreenState extends State<SignInScreen> {
             child: Column(
               children: <Widget>[
                 logoWidget("assets/images/img.png"),
+
+                const SizedBox(height: 30,),
+
+                reUseTextField("Enter the username", Icons.person_outline, false , _emailTextController ),
+
+                const SizedBox(height: 30,),
+
+                reUseTextField("Enter the password", Icons.lock_outlined, false , _passwordTextController ),
+
               ],
             ),
           ),
