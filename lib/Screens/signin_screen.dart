@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:logginapplication/Screens/home_screen.dart';
 import 'package:logginapplication/Screens/signup_screen.dart';
@@ -51,7 +52,19 @@ class _SignInScreenState extends State<SignInScreen> {
                   height: 40,
                 ),
                 signInSignUpButton(context, true, () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) =>const  HomeScreen()));
+                  FirebaseAuth.instance
+                      .signInWithEmailAndPassword(
+                          email: _emailTextController.text,
+                          password: _passwordTextController.text)
+                      .then((value) {
+                    print("Login Succussfully");
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomeScreen()));
+                  }).onError((error, stackTrace) {
+                    print("Error - ${error.toString()}");
+                  });
                 }),
                 // const SizedBox(
                 //   height: 10,
@@ -66,7 +79,7 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Row signUpOption() {
-    return  Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text(
