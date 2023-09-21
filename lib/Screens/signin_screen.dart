@@ -65,7 +65,7 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Row signUpOption() {
-    return Row(
+    return  Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text(

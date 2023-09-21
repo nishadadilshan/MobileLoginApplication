@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logginapplication/Screens/home_screen.dart';
 import 'package:logginapplication/reusable_widgets/logo_widget.dart';
 import 'package:logginapplication/reusable_widgets/signinloginbutton_widget.dart';
 import 'package:logginapplication/reusable_widgets/textFeild_widget.dart';
@@ -25,13 +26,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         foregroundColor: Colors.white,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        // title: const Text(
-        //   "SIGN UP",
-        //   style: TextStyle(
-        //     fontWeight: FontWeight.bold,
-        //     fontSize: 24,
-        //   ),
-        // ),
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -80,7 +74,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: 10,
                 ),
                 signInSignUpButton(context, false, (){
-                  print("Sign up pressed");
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
                 })
               ],
             ),

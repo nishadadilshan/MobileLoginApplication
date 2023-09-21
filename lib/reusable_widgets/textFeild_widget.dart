@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-TextField reUseTextField (String text, IconData icon, bool isPasswordType, TextEditingController controller){
+TextField reUseTextField(String text, IconData icon, bool isPasswordType,
+    TextEditingController controller) {
   return TextField(
     controller: controller,
     obscureText: isPasswordType,
@@ -20,9 +21,11 @@ TextField reUseTextField (String text, IconData icon, bool isPasswordType, TextE
       fillColor: Colors.white.withOpacity(0.3),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(20.0),
-        borderSide: const BorderSide(width: 0,style: BorderStyle.none),
+        borderSide: const BorderSide(width: 0, style: BorderStyle.none),
       ),
     ),
-    keyboardType: isPasswordType ? TextInputType.visiblePassword : TextInputType.emailAddress,
+    keyboardType: isPasswordType
+        ? TextInputType.visiblePassword
+        : TextInputType.emailAddress,
   );
 }
