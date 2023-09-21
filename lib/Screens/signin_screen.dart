@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logginapplication/Screens/home_screen.dart';
 import 'package:logginapplication/Screens/signup_screen.dart';
 import 'package:logginapplication/reusable_widgets/signinloginbutton_widget.dart';
 import 'package:logginapplication/reusable_widgets/textFeild_widget.dart';
@@ -50,7 +51,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   height: 40,
                 ),
                 signInSignUpButton(context, true, () {
-                  print("Sign in pressed");
+                  Navigator.push(context, MaterialPageRoute(builder: (context) =>const  HomeScreen()));
                 }),
                 // const SizedBox(
                 //   height: 10,

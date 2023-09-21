@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logginapplication/Screens/signin_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -30,15 +31,18 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Padding(
             padding: EdgeInsets.fromLTRB(
                 (20), MediaQuery.of(context).size.height * 0.1, 20, 0),
-            child: const Column(
+            child:  Column(
               children: [
-                Text(
+                const Text(
                   "Home Screen",
                   style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
                 ),
+                ElevatedButton(onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const SignInScreen()));
+                }, child:const Text("Log out", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18, color: Colors.black),))
               ],
             ),
           ),
