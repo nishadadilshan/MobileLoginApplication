@@ -14,8 +14,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        foregroundColor: Colors.white,
-        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.black,
+        backgroundColor: Colors.white10,
         elevation: 0,
       ),
       body: Container(
@@ -23,9 +23,9 @@ class _HomeScreenState extends State<HomeScreen> {
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
             gradient: LinearGradient(colors: [
-          Colors.deepPurple,
-          Colors.green,
-          Colors.teal,
+              Colors.white,
+              Colors.black38,
+              Colors.black54,
         ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
         child: SingleChildScrollView(
           child: Padding(

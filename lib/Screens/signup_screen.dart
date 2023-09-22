@@ -13,19 +13,19 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  TextEditingController _userNameTextController = TextEditingController();
-  TextEditingController _emailTextController = TextEditingController();
-  TextEditingController _addressTextController = TextEditingController();
-  TextEditingController _countryTextController = TextEditingController();
-  TextEditingController _mobileTextController = TextEditingController();
-  TextEditingController _passwordTextController = TextEditingController();
+  final TextEditingController _userNameTextController = TextEditingController();
+  final TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _addressTextController = TextEditingController();
+  final TextEditingController _countryTextController = TextEditingController();
+  final TextEditingController _mobileTextController = TextEditingController();
+  final TextEditingController _passwordTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        foregroundColor: Colors.white,
-        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.black,
+        backgroundColor: Colors.white10,
         elevation: 0,
       ),
       body: GestureDetector(
@@ -37,9 +37,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           height: MediaQuery.of(context).size.height,
           decoration: const BoxDecoration(
               gradient: LinearGradient(colors: [
-            Colors.deepPurple,
-            Colors.teal,
-            Colors.green,
+                Colors.white,
+                Colors.black38,
+                Colors.black54,
           ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
           child: SingleChildScrollView(
             child: Padding(
