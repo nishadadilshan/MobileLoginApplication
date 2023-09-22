@@ -1,20 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:logginapplication/Screens/signin_screen.dart';
+import 'package:logginapplication/Screens/auth_screens/reset_password_screen.dart';
 import 'package:logginapplication/reusable_widgets/logo_widget.dart';
+import '../../animation_transition/custom_page_router.dart';
+import '../../reusable_widgets/textFeild_widget.dart';
 
-import '../reusable_widgets/textFeild_widget.dart';
-
-class ResetPasswordScreen extends StatefulWidget {
-  const ResetPasswordScreen({super.key});
+class ForgotPasswordScreen extends StatefulWidget {
+  const ForgotPasswordScreen({super.key});
 
   @override
-  State<ResetPasswordScreen> createState() => _HomeScreenState();
+  State<ForgotPasswordScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<ResetPasswordScreen> {
-  final TextEditingController _passwordTextController = TextEditingController();
-  final TextEditingController _confirmPasswordTextController = TextEditingController();
+class _HomeScreenState extends State<ForgotPasswordScreen> {
+  final TextEditingController _emailTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,21 +29,21 @@ class _HomeScreenState extends State<ResetPasswordScreen> {
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
             gradient: LinearGradient(colors: [
-              Colors.white,
-              Colors.black38,
-              Colors.black54,
-            ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+          Colors.white,
+          Colors.black38,
+          Colors.black54,
+        ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
                 (20), MediaQuery.of(context).size.height * 0.1, 20, 0),
             child: Column(
               children: <Widget>[
-                logoWidget("assets/images/img_3.png"),
+                logoWidget("assets/images/img_2.png"),
                 const SizedBox(
                   height: 10,
                 ),
-                const Text("RESET PASSWORD",
+                const Text("FORGOT PASSWORD",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -55,7 +54,7 @@ class _HomeScreenState extends State<ResetPasswordScreen> {
                 ),
                 const Center(
                   child: Text(
-                    "Enter new password fot the login.",
+                    "To change the password please enter the provided email address.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 15,
@@ -66,17 +65,12 @@ class _HomeScreenState extends State<ResetPasswordScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                reUseTextField("Enter new password", Icons.key_outlined,
-                    false, _passwordTextController),
+                reUseTextField("Enter email address", Icons.email_outlined,
+                    false, _emailTextController),
                 const SizedBox(
                   height: 10,
                 ),
-                reUseTextField("Confirm password", Icons.key_outlined,
-                    false, _confirmPasswordTextController),
-                const SizedBox(
-                  height: 10,
-                ),
-                ForgotPasswordButton(),
+                ForgotPassworSubmitdButton(),
               ],
             ),
           ),
@@ -85,7 +79,7 @@ class _HomeScreenState extends State<ResetPasswordScreen> {
     );
   }
 
-  Container ForgotPasswordButton() {
+  Container ForgotPassworSubmitdButton() {
     return Container(
       width: MediaQuery.of(context).size.width * 0.6,
       height: 50,
@@ -95,9 +89,17 @@ class _HomeScreenState extends State<ResetPasswordScreen> {
       ),
       child: ElevatedButton(
           onPressed: () {
-            // print("Submit pressed");
-            // Navigator.push(context,
-            //     MaterialPageRoute(builder: (context) => const ResetPassword()))
+            print("Submit pressed");
+            Navigator.of(context).push(
+              CustomPageRoute(
+                child: const ResetPasswordScreen(),
+                direction: AxisDirection.left,
+              ),
+            );
+            // Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (context) => const ResetPasswordScreen()));
           },
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.resolveWith((states) {
@@ -109,12 +111,14 @@ class _HomeScreenState extends State<ResetPasswordScreen> {
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
               )),
-          child: const Text("Submit",
-            style:  TextStyle(
+          child: const Text(
+            "Submit",
+            style: TextStyle(
               color: Colors.black87,
               fontWeight: FontWeight.bold,
               fontSize: 16,
-            ),)),
+            ),
+          )),
     );
   }
 }

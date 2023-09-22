@@ -1,13 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:logginapplication/Screens/forgot_password_screen.dart';
-import 'package:logginapplication/Screens/loggedin_screen.dart';
-import 'package:logginapplication/Screens/signup_screen.dart';
+import 'package:logginapplication/Screens/auth_screens/forgot_password_screen.dart';
+import 'package:logginapplication/Screens/auth_screens/loggedin_screen.dart';
+import 'package:logginapplication/Screens/auth_screens/signup_screen.dart';
 import 'package:logginapplication/reusable_widgets/signinloginbutton_widget.dart';
 import 'package:logginapplication/reusable_widgets/textFeild_widget.dart';
 import 'package:logginapplication/utils/color_utils.dart';
 
-import '../reusable_widgets/logo_widget.dart';
+import '../../animation_transition/custom_page_router.dart';
+import '../../reusable_widgets/logo_widget.dart';
+
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -69,10 +71,16 @@ class _SignInScreenState extends State<SignInScreen> {
                             password: _passwordTextController.text)
                         .then((value) {
                       print("Login Successfully");
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomeScreen()));
+                      Navigator.of(context).push(
+                        CustomPageRoute(
+                          child: const HomeScreen(),
+                          direction: AxisDirection.left,
+                        ),
+                      );
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => const HomeScreen()));
                     }).onError((error, stackTrace) {
                       Navigator.pop(context);
                       showDialog(
@@ -125,12 +133,18 @@ class _SignInScreenState extends State<SignInScreen> {
         ),
         GestureDetector(
           onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => isSignUp == true
-                        ? const SignUpScreen()
-                        : const ForgotPasswordScreen()));
+            Navigator.of(context).push(
+              CustomPageRoute(
+                child: isSignUp == true ? const SignUpScreen() : const ForgotPasswordScreen(),
+                direction: AxisDirection.left,
+              ),
+            );
+            // Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (context) => isSignUp == true
+            //             ? const SignUpScreen()
+            //             : const ForgotPasswordScreen()));
           },
           child: Text(
             isSignUp == true ? " Sign up" : " Reset password",

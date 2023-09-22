@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:logginapplication/Screens/loggedin_screen.dart';
+import 'package:logginapplication/Screens/auth_screens/loggedin_screen.dart';
 import 'package:logginapplication/reusable_widgets/logo_widget.dart';
 import 'package:logginapplication/reusable_widgets/signinloginbutton_widget.dart';
 import 'package:logginapplication/reusable_widgets/textFeild_widget.dart';
+
+import '../../animation_transition/custom_page_router.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -78,14 +80,45 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  signInSignUpButton(context, false, (){
-                    FirebaseAuth.instance.createUserWithEmailAndPassword(
+                  signInSignUpButton(context, false, () async {
+                    showDialog(context: context, builder: (context) => const Center(
+                      child: CircularProgressIndicator(),
+                    ));
+                    await FirebaseAuth.instance.createUserWithEmailAndPassword(
                         email: _emailTextController.text,
                         password: _passwordTextController.text)
                         .then((value) {
                             print("Signed up successfully");
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+                            Navigator.of(context).push(
+                              CustomPageRoute(
+                                child: const HomeScreen(),
+                                direction: AxisDirection.left,
+                              ),
+                            );
                     }).onError((error, stackTrace) {
+                      Navigator.pop(context);
+                      showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text(
+                              "Error",
+                              style: TextStyle(color: Colors.red),
+                            ),
+                            content:
+                            const Text("Please fill all the fields."),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text("CANCEL")),
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text("OK")),
+                            ],
+                          ));
                       print("Error - ${error.toString()}");
                     });
                   })

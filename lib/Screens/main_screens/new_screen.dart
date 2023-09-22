@@ -1,14 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:logginapplication/Screens/signin_screen.dart';
+import 'package:logginapplication/Screens/auth_screens/signin_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class NewScreen extends StatefulWidget {
+  const NewScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<NewScreen> createState() => _NewScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _NewScreenState extends State<NewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,34 +27,21 @@ class _HomeScreenState extends State<HomeScreen> {
               Colors.white,
               Colors.black38,
               Colors.black54,
-        ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+            ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
                 (20), MediaQuery.of(context).size.height * 0.1, 20, 0),
-            child: Column(
+            child: const Column(
               children: [
-                const Text(
-                  "Home Screen",
+                 Text(
+                  "NEW Screen",
                   style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
                 ),
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SignInScreen()));
-                    },
-                    child: const Text(
-                      "Log out",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.black),
-                    ))
+
               ],
             ),
           ),
