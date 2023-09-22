@@ -24,7 +24,7 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
-        onTap: (){
+        onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Container(
@@ -51,17 +51,22 @@ class _SignInScreenState extends State<SignInScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  reUseTextField("Enter the password", Icons.lock_outlined, true,
-                      _passwordTextController),
+                  reUseTextField("Enter the password", Icons.lock_outlined,
+                      true, _passwordTextController),
                   signUpOrForgotPassword(false),
                   const SizedBox(
                     height: 40,
                   ),
-                  signInSignUpButton(context, true, () {
-                    FirebaseAuth.instance
+                  signInSignUpButton(context, true, () async {
+                    showDialog(
+                        context: context,
+                        builder: (context) => const Center(
+                              child: CircularProgressIndicator(),
+                            ));
+                    await FirebaseAuth.instance
                         .signInWithEmailAndPassword(
-                        email: _emailTextController.text,
-                        password: _passwordTextController.text)
+                            email: _emailTextController.text,
+                            password: _passwordTextController.text)
                         .then((value) {
                       print("Login Successfully");
                       Navigator.push(
@@ -69,8 +74,32 @@ class _SignInScreenState extends State<SignInScreen> {
                           MaterialPageRoute(
                               builder: (context) => const HomeScreen()));
                     }).onError((error, stackTrace) {
+                      Navigator.pop(context);
+                      showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                                title: const Text(
+                                  "Error",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                                content:
+                                    const Text("Invalid username or password"),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text("CANCEL")),
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text("OK")),
+                                ],
+                              ));
                       print("Error - ${error.toString()}");
                     });
+                    // Navigator.pop(context);
                   }),
                   // const SizedBox(
                   //   height: 10,
@@ -87,20 +116,26 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Row signUpOrForgotPassword(bool isSignUp) {
     return Row(
-      mainAxisAlignment: isSignUp == true ? MainAxisAlignment.center : MainAxisAlignment.start,
+      mainAxisAlignment:
+          isSignUp == true ? MainAxisAlignment.center : MainAxisAlignment.start,
       children: [
-         Text(
-           isSignUp  == true ? "Don't have account?" : "Forgot password?",
+        Text(
+          isSignUp == true ? "Don't have account?" : "Forgot password?",
           style: const TextStyle(color: Colors.white70),
         ),
         GestureDetector(
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => isSignUp == true ? const SignUpScreen() : const ForgotPasswordScreen()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => isSignUp == true
+                        ? const SignUpScreen()
+                        : const ForgotPasswordScreen()));
           },
-          child:  Text(
-            isSignUp == true ?  " Sign up" : " Reset password",
-            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          child: Text(
+            isSignUp == true ? " Sign up" : " Reset password",
+            style: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold),
           ),
         )
       ],
