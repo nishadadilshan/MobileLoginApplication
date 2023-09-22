@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:logginapplication/Screens/signin_screen.dart';
 
@@ -32,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Padding(
             padding: EdgeInsets.fromLTRB(
                 (20), MediaQuery.of(context).size.height * 0.1, 20, 0),
-            child:  Column(
+            child: Column(
               children: [
                 const Text(
                   "Home Screen",
@@ -41,15 +40,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
                 ),
-                ElevatedButton(onPressed: (){
-                  FirebaseAuth.instance.signOut().then((value) {
-                    print("Signed out successfully");
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const SignInScreen()));
-                  }).onError((error, stackTrace) {
-                    print("Error- ${error.toString()}");
-                  });
-
-                }, child:const Text("Log out", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18, color: Colors.black),))
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SignInScreen()));
+                    },
+                    child: const Text(
+                      "Log out",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.black),
+                    ))
               ],
             ),
           ),
