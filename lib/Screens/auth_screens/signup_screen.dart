@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:logginapplication/Screens/auth_screens/loggedin_screen.dart';
@@ -17,10 +18,33 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _userNameTextController = TextEditingController();
   final TextEditingController _emailTextController = TextEditingController();
-  final TextEditingController _addressTextController = TextEditingController();
-  final TextEditingController _countryTextController = TextEditingController();
+
+  // final TextEditingController _addressTextController = TextEditingController();
+  // final TextEditingController _countryTextController = TextEditingController();
   final TextEditingController _mobileTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
+
+  Future SignUp() async {
+    print("sign up called --------->>");
+    //create user
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailTextController.text.trim(),
+        password: _passwordTextController.text.trim());
+
+    //add user details
+   await addUserDetails(_userNameTextController.text.trim(),
+        _emailTextController.text.trim(), _mobileTextController.text.trim());
+  }
+
+  Future addUserDetails(String name, String email, String mobile) async {
+    await FirebaseFirestore.instance.collection('users').add({
+      'name': name,
+      'email': email,
+      'mobile': mobile,
+    });
+    print("add user called --------------->>>");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +55,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         elevation: 0,
       ),
       body: GestureDetector(
-        onTap: (){
+        onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Container(
@@ -39,9 +63,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           height: MediaQuery.of(context).size.height,
           decoration: const BoxDecoration(
               gradient: LinearGradient(colors: [
-                Colors.white,
-                Colors.black38,
-                Colors.black54,
+            Colors.white,
+            Colors.black38,
+            Colors.black54,
           ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
           child: SingleChildScrollView(
             child: Padding(
@@ -65,13 +89,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       _userNameTextController),
                   const SizedBox(
                     height: 10,
-                  ),reUseTextField("Enter email address", Icons.email_outlined, false,
-                      _emailTextController),
+                  ),
+                  reUseTextField("Enter email address", Icons.email_outlined,
+                      false, _emailTextController),
                   const SizedBox(
                     height: 10,
                   ),
-                  reUseTextField("Mobile number", Icons.phone_android_outlined, false,
-                      _mobileTextController),
+                  reUseTextField("Mobile number", Icons.phone_android_outlined,
+                      false, _mobileTextController),
                   const SizedBox(
                     height: 10,
                   ),
@@ -81,46 +106,84 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 10,
                   ),
                   signInSignUpButton(context, false, () async {
-                    showDialog(context: context, builder: (context) => const Center(
-                      child: CircularProgressIndicator(),
-                    ));
-                    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                        email: _emailTextController.text,
-                        password: _passwordTextController.text)
-                        .then((value) {
-                            print("Signed up successfully");
-                            Navigator.of(context).push(
-                              CustomPageRoute(
-                                child: const HomeScreen(),
-                                direction: AxisDirection.left,
-                              ),
-                            );
+                    showDialog(
+                        context: context,
+                        builder: (context) => const Center(
+                              child: CircularProgressIndicator(),
+                            ));
+
+                    SignUp().then((value) {
+                      print("Signed up successfully");
+                      Navigator.of(context).push(
+                        CustomPageRoute(
+                          child: const HomeScreen(),
+                          direction: AxisDirection.left,
+                        ),
+                      );
                     }).onError((error, stackTrace) {
                       Navigator.pop(context);
                       showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                            title: const Text(
-                              "Error",
-                              style: TextStyle(color: Colors.red),
-                            ),
-                            content:
-                            const Text("Please fill all the fields."),
-                            actions: [
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text("CANCEL")),
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text("OK")),
-                            ],
-                          ));
+                                title: const Text(
+                                  "Error",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                                content:
+                                    const Text("Please fill all the fields."),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text("CANCEL")),
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text("OK")),
+                                ],
+                              ));
                       print("Error - ${error.toString()}");
                     });
+
+                    // await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                    //     email: _emailTextController.text,
+                    //     password: _passwordTextController.text)
+                    //     .then((value) {
+                    //         print("Signed up successfully");
+                    //         Navigator.of(context).push(
+                    //           CustomPageRoute(
+                    //             child: const HomeScreen(),
+                    //             direction: AxisDirection.left,
+                    //           ),
+                    //         );
+                    // }).onError((error, stackTrace) {
+                    //   Navigator.pop(context);
+                    //   showDialog(
+                    //       context: context,
+                    //       builder: (context) => AlertDialog(
+                    //         title: const Text(
+                    //           "Error",
+                    //           style: TextStyle(color: Colors.red),
+                    //         ),
+                    //         content:
+                    //         const Text("Please fill all the fields."),
+                    //         actions: [
+                    //           TextButton(
+                    //               onPressed: () {
+                    //                 Navigator.pop(context);
+                    //               },
+                    //               child: const Text("CANCEL")),
+                    //           TextButton(
+                    //               onPressed: () {
+                    //                 Navigator.pop(context);
+                    //               },
+                    //               child: const Text("OK")),
+                    //         ],
+                    //       ));
+                    //   print("Error - ${error.toString()}");
+                    // });
                   })
                 ],
               ),
