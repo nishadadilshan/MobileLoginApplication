@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:logginapplication/Screens/auth_screens/reset_password_screen.dart';
 import 'package:logginapplication/reusable_widgets/logo_widget.dart';
-import '../../animation_transition/custom_page_router.dart';
 import '../../reusable_widgets/textFeild_widget.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -16,6 +14,52 @@ class _HomeScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController _emailTextController = TextEditingController();
 
   @override
+  void dispose() {
+    _emailTextController.dispose();
+    super.dispose();
+  }
+
+  Future passwordReset() async {
+    print("Password reset inside");
+    try{
+      showDialog(
+          context: context,
+          builder: (context) => const Center(
+            child: CircularProgressIndicator(),
+          ));
+      print("Inside try block------------>>");
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(
+          email: _emailTextController.text.trim());
+      Navigator.pop(context);
+      showDialog(context: context, builder: (context) {
+        return AlertDialog(
+          content: Text("Password reset email send to the mentioned email address."),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("OK")),
+          ],
+
+        );
+
+      });
+    } on FirebaseAuthException catch(e){
+      print("Error-------------->>>");
+      print(e);
+      showDialog(context: context, builder: (context) {
+        return AlertDialog(
+          content: Text(e.message.toString()),
+        );
+      });
+      Navigator.pop(context);
+    }
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -24,54 +68,59 @@ class _HomeScreenState extends State<ForgotPasswordScreen> {
         backgroundColor: Colors.white10,
         elevation: 0,
       ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(colors: [
-          Colors.white,
-          Colors.black38,
-          Colors.black54,
-        ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(
-                (20), MediaQuery.of(context).size.height * 0.1, 20, 0),
-            child: Column(
-              children: <Widget>[
-                logoWidget("assets/images/img_2.png"),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text("FORGOT PASSWORD",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24,
-                    )),
-                const SizedBox(
-                  height: 30,
-                ),
-                const Center(
-                  child: Text(
-                    "To change the password please enter the provided email address.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.black87,
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(colors: [
+            Colors.white,
+            Colors.black38,
+            Colors.black54,
+          ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(
+                  (20), MediaQuery.of(context).size.height * 0.1, 20, 0),
+              child: Column(
+                children: <Widget>[
+                  logoWidget("assets/images/img_2.png"),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text("FORGOT PASSWORD",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                      )),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  const Center(
+                    child: Text(
+                      "To change the password please enter the provided email address.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.black87,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                reUseTextField("Enter email address", Icons.email_outlined,
-                    false, _emailTextController),
-                const SizedBox(
-                  height: 10,
-                ),
-                ForgotPassworSubmitdButton(),
-              ],
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  reUseTextField("Enter email address", Icons.email_outlined,
+                      false, _emailTextController),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ForgotPassworSubmitdButton(),
+                ],
+              ),
             ),
           ),
         ),
@@ -89,13 +138,14 @@ class _HomeScreenState extends State<ForgotPasswordScreen> {
       ),
       child: ElevatedButton(
           onPressed: () {
+            passwordReset();
             print("Submit pressed");
-            Navigator.of(context).push(
-              CustomPageRoute(
-                child: const ResetPasswordScreen(),
-                direction: AxisDirection.left,
-              ),
-            );
+            // Navigator.of(context).push(
+            //   CustomPageRoute(
+            //     child: const ResetPasswordScreen(),
+            //     direction: AxisDirection.left,
+            //   ),
+            // );
             // Navigator.push(
             //     context,
             //     MaterialPageRoute(
